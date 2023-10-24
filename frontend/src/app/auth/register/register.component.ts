@@ -22,6 +22,14 @@ export class RegisterComponent {
   ) { }
 
   onSubmit() {
-
+    if(this.registerForm.valid){
+      this.auth.register(this.registerForm.value).subscribe({
+        next:(res)=>{
+          alert(res);
+        }, error:(err)=>{
+          alert(err.error);
+        }
+      })
+    }
   }
 }

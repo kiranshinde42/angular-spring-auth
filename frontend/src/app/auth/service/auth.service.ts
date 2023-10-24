@@ -8,7 +8,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(){
-    return this.http.get('http://localhost:8080/api/auth/login');
+  login(loginPayload:any){
+    return this.http.post('http://localhost:8080/api/auth/login', loginPayload, {responseType: 'text'});
+  }
+
+  register(registerPayload:any){
+    return this.http.post('http://localhost:8080/api/auth/register', registerPayload, {responseType: 'text'});
   }
 }

@@ -20,13 +20,17 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@GetMapping("/login")
-    public ResponseEntity<Void> login() {
-		return null;		
+	@PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody SignUpDto signUpDto) {
+		if(userRepository.existsByEmailAndPassword(signUpDto.getEmail(), signUpDto.getPassword())){
+            return new ResponseEntity<>("Successfully login!", HttpStatus.OK);
+        }  else {
+        	return new ResponseEntity<>("Email or password wrong!", HttpStatus.BAD_REQUEST);
+        }		
     }
 	
-	@PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
+	@PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody SignUpDto signUpDto){
         // checking for email exists in a database
         if(userRepository.existsByEmail(signUpDto.getEmail())){
             return new ResponseEntity<>("Email is already exist!", HttpStatus.BAD_REQUEST);

@@ -21,12 +21,14 @@ export class LoginComponent {
 
   onSubmit() {
     if(this.loginForm.valid){
-      this.auth.login().subscribe({
-        next:()=>{
-          console.log("Success");
+      this.auth.login(this.loginForm.value).subscribe({
+        next:(res)=>{
+          console.log("Success", res);
+          alert(res);
         },
-        error:()=>{
-          console.log("Error");
+        error:(err)=>{
+          console.log("Error ", err.error);
+          alert(err.error);
         }
       })
     }
