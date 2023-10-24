@@ -23,7 +23,9 @@
         <div>
           <button mat-raised-button color="primary" class="width-100" type="submit" [disabled]="!loginForm.valid">Login</button>
         </div>
-
+        <div class="register">
+          Not a member? &nbsp;<a href="javascript:;" [routerLink]="['/auth/register']"> Register</a>
+        </div>
       </mat-card-content>
     </mat-card>
   </form>

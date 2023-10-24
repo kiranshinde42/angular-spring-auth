@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,22 @@ export class LoginComponent {
     password: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService
+  ) { }
 
   onSubmit() {
-    console.warn(this.loginForm.value);
+    if(this.loginForm.valid){
+      this.auth.login().subscribe({
+        next:()=>{
+          console.log("Success");
+        },
+        error:()=>{
+          console.log("Error");
+        }
+      })
+    }
   }
 
 }
