@@ -23,11 +23,9 @@ export class LoginComponent {
     if(this.loginForm.valid){
       this.auth.login(this.loginForm.value).subscribe({
         next:(res)=>{
-          console.log("Success", res);
           alert(res);
         },
         error:(err)=>{
-          console.log("Error ", err.error);
           alert(err.error);
         }
       })
