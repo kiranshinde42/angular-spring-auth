@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,17 +17,19 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router  
   ) { }
 
   onSubmit() {
     if(this.loginForm.valid){
       this.auth.login(this.loginForm.value).subscribe({
         next:(res)=>{
-          alert(res);
-        },
-        error:(err)=>{
+          this.router.navigate(['dashboard']);
+        }, error:(err)=>{
           alert(err.error);
+        }, complete: ()=>{
+          this.loginForm.reset();
         }
       })
     }

@@ -1,5 +1,6 @@
+<mat-toolbar color="primary"></mat-toolbar>
 <div class="grid-container">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" #formDirective="ngForm">
       <mat-card>
         <mat-card-content>
           <h3 class="project-title">User Registration</h3>
