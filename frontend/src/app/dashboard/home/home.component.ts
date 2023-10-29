@@ -10,6 +10,7 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  user = JSON.parse(localStorage.getItem('user'));
   private breakpointObserver = inject(BreakpointObserver);
   options = this._formBuilder.group({
     bottom: 0,
@@ -17,7 +18,9 @@ export class HomeComponent {
     top: 60,
   });
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder) {
+    console.log('user ', this.user);
+  }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

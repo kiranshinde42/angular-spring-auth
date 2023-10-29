@@ -1,13 +1,11 @@
 <mat-toolbar color="primary">
-  <span class="toolbar-item-spacer"></span>
-  <button mat-icon-button matTooltip="Share">
-      <mat-icon>share</mat-icon>
+  <span>Dreamteam.com</span>
+  <span class="toolbar-item-spacer"></span>   
+  <button mat-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+    <mat-icon>account_circle</mat-icon> {{user?.firstName}} {{user?.lastName}}
   </button>
-  <button mat-icon-button matTooltip="Notifications">
-      <mat-icon>notifications</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-       <mat-icon>account_circle</mat-icon>
+  <button mat-raised-button color="accent" routerLink="#" class="logout">
+    <mat-icon>logout</mat-icon> Logout
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
       <button mat-menu-item routerLink="#">
@@ -18,10 +16,6 @@
       </button>
       <button mat-menu-item routerLink="#">
           <mat-icon>help</mat-icon><span>Help</span>
-      </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item routerLink="#">
-          <mat-icon>exit_to_app</mat-icon>Logout
       </button>
   </mat-menu>
 </mat-toolbar>

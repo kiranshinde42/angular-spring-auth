@@ -6,33 +6,35 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   hide = true;
   loginForm = this.fb.group({
     email: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router  
-  ) { }
+    private router: Router
+  ) {}
 
   onSubmit() {
-    if(this.loginForm.valid){
+    if (this.loginForm.valid) {
       this.auth.login(this.loginForm.value).subscribe({
-        next:(res)=>{
+        next: (res) => {
+          localStorage.setItem('user', JSON.stringify(res));
           this.router.navigate(['dashboard']);
-        }, error:(err)=>{
-          alert(err.error);
-        }, complete: ()=>{
+        },
+        error: (err) => {
+          console.log('err ', err.error);
+        },
+        complete: () => {
           this.loginForm.reset();
-        }
-      })
+        },
+      });
     }
   }
-
 }

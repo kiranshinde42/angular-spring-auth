@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  constructor(private http: HttpClient) { }
-
-  login(loginPayload:any){
-    return this.http.post('http://localhost:8080/api/auth/login', loginPayload, {responseType: 'text'});
+  server: String;
+  constructor(private http: HttpClient) {
+    this.server = environment.SERVER;
   }
 
-  register(registerPayload:any){
-    return this.http.post('http://localhost:8080/api/auth/register', registerPayload, {responseType: 'text'});
+  login(loginPayload: any) {
+    return this.http.post(this.server + '/api/auth/login', loginPayload);
+  }
+
+  register(registerPayload: any) {
+    return this.http.post(this.server + '/api/auth/register', registerPayload);
   }
 }

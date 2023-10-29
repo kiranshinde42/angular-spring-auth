@@ -8,18 +8,13 @@ import { AuthService } from './service/auth.service';
 import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent
-  ],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
     SharedModuleModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [
-    AuthService
-  ],
+  providers: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}
