@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -17,5 +17,14 @@ export class AuthService {
 
   register(registerPayload: any) {
     return this.http.post(this.server + '/api/auth/register', registerPayload);
+  }
+
+  authLogin(idToken) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + idToken,
+      }),
+    };
+    return this.http.get(this.server + '/api/auth/authorize/' + idToken);
   }
 }

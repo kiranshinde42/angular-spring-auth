@@ -7,10 +7,10 @@ import { FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  user = JSON.parse(localStorage.getItem('user'));
+  username = JSON.parse(localStorage.getItem('user')).username;
   private breakpointObserver = inject(BreakpointObserver);
   options = this._formBuilder.group({
     bottom: 0,
@@ -18,13 +18,12 @@ export class HomeComponent {
     top: 60,
   });
 
-  constructor(private _formBuilder: FormBuilder) {
-    console.log('user ', this.user);
-  }
+  constructor(private _formBuilder: FormBuilder) {}
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map((result) => result.matches),
       shareReplay()
     );
 }

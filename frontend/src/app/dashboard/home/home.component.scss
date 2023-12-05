@@ -5,7 +5,8 @@
 .app-container {
   height: 88%;
   margin: 0;
-}  
+  overflow: auto;
+}
 .app-sidenav {
   width: 230px;
 }

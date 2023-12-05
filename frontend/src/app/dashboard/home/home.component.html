@@ -1,25 +1,29 @@
 <mat-toolbar color="primary">
   <span>Dreamteam.com</span>
-  <span class="toolbar-item-spacer"></span>   
-  <button mat-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
-    <mat-icon>account_circle</mat-icon> {{user?.firstName}} {{user?.lastName}}
+  <span class="toolbar-item-spacer"></span>
+  <button
+    mat-button
+    matTooltip="My Account"
+    [matMenuTriggerFor]="userAccountMenu"
+  >
+    <mat-icon>account_circle</mat-icon> {{ username }}
   </button>
   <button mat-raised-button color="accent" routerLink="#" class="logout">
     <mat-icon>logout</mat-icon> Logout
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-      <button mat-menu-item routerLink="#">
-          <mat-icon>person</mat-icon><span>My Account</span>
-      </button>
-      <button mat-menu-item routerLink="#">
-          <mat-icon>settings</mat-icon><span>Settings</span>
-      </button>
-      <button mat-menu-item routerLink="#">
-          <mat-icon>help</mat-icon><span>Help</span>
-      </button>
+    <button mat-menu-item routerLink="#">
+      <mat-icon>person</mat-icon><span>My Account</span>
+    </button>
+    <button mat-menu-item routerLink="#">
+      <mat-icon>settings</mat-icon><span>Settings</span>
+    </button>
+    <button mat-menu-item routerLink="#">
+      <mat-icon>help</mat-icon><span>Help</span>
+    </button>
   </mat-menu>
 </mat-toolbar>
 
 <div class="app-container">
   <router-outlet> </router-outlet>
-</div> 
+</div>

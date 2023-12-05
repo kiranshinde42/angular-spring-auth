@@ -13,24 +13,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { MatTableModule } from '@angular/material/table';
+import { DashboardService } from './services/dashboard.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpInterceptorInterceptor } from '../shared-module/interceptor/http-interceptor.interceptor';
+import { SharedModuleModule } from '../shared-module/shared-module.module';
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    HomeComponent
-  ],
+  declarations: [DashboardComponent, HomeComponent],
   imports: [
     CommonModule,
+    SharedModuleModule,
     DashboardRoutingModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatExpansionModule
-  ]
+    HttpClientModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorInterceptor,
+      multi: true,
+    },
+    DashboardService,
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

@@ -22,8 +22,11 @@ export class RegisterComponent {
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
+  role: any;
 
   constructor(private fb: FormBuilder, private auth: AuthService) {}
+
+  ngOnInit() {}
 
   onSubmit() {
     if (this.registerForm.valid) {

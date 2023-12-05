@@ -1,33 +1,42 @@
 import { Component, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import {
+  OidcClientNotification,
+  OidcSecurityService,
+  OpenIdConfiguration,
+  UserDataResult,
+} from 'angular-auth-oidc-client';
+import { HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { DashboardService } from '../services/dashboard.service';
+
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  private breakpointObserver = inject(BreakpointObserver);
+  displayedColumns: string[] = ['First Name', 'Last Name', 'Email', 'Roles'];
+  dataSource = [];
 
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
+  constructor(private dashboard: DashboardService) {}
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  );
+  ngOnInit() {
+    this.dashboard.getUsers().subscribe({
+      next: (res) => {
+        this.dataSource = res as [];
+      },
+      error: (err) => {
+        console.log('Error ', err);
+      },
+    });
+  }
 }
