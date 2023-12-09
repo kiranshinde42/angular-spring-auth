@@ -57,8 +57,8 @@ public class UserController {
         return new ResponseEntity<>("User is registered successfully!", HttpStatus.OK);
     }
 	
-	@GetMapping("/auth/authorize/{token}")
-    public ResponseEntity<LoginResponse> authLogin(@PathVariable String token) throws CommonException{
+	@GetMapping("/auth/authorize")
+    public ResponseEntity<LoginResponse> authLogin(@RequestHeader("idToken") String token) throws CommonException{
 		LoginResponse lr = userService.googleAuthLogin(token);		
 		return new ResponseEntity<>(lr, HttpStatus.OK);
     }

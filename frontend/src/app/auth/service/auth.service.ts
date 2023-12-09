@@ -22,9 +22,9 @@ export class AuthService {
   authLogin(idToken) {
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: 'Bearer ' + idToken,
+        idToken: 'Bearer ' + idToken,
       }),
     };
-    return this.http.get(this.server + '/api/auth/authorize/' + idToken);
+    return this.http.get(this.server + '/api/auth/authorize', httpOptions);
   }
 }

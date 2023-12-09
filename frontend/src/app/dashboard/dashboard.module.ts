@@ -18,8 +18,9 @@ import { DashboardService } from './services/dashboard.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorInterceptor } from '../shared-module/interceptor/http-interceptor.interceptor';
 import { SharedModuleModule } from '../shared-module/shared-module.module';
+import { MenuComponent } from './menu/menu.component';
 @NgModule({
-  declarations: [DashboardComponent, HomeComponent],
+  declarations: [DashboardComponent, HomeComponent, MenuComponent],
   imports: [
     CommonModule,
     SharedModuleModule,

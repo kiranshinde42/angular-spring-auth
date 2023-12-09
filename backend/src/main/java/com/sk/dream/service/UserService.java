@@ -112,13 +112,14 @@ public class UserService {
 		
 		GoogleIdToken idToken;
 		try {
-			idToken = verifier.verify(idTokenString);
+			idToken = verifier.verify(idTokenString.substring(7));
 			if (idToken != null) {
 				  Payload payload = idToken.getPayload();
 				  String firstName = (String)payload.get("given_name");
 				  String lastName = (String)payload.get("family_name");
 				  Set<Role> roleSet = new HashSet<Role>();
-				  if(!userRepository.existsByEmail(payload.getEmail())) {
+				  Optional<User> ssoUser = userRepository.findByEmail(payload.getEmail());
+				  if(ssoUser.isEmpty()) {
 					  try {
 						  User user = new User();
 					      user.setFirstName(firstName);
@@ -132,6 +133,8 @@ public class UserService {
 					  }catch(Exception e) {
 						  throw new CommonException("Something went wrong, Unable to create a user");
 					  }
+				  } else {
+					  roleSet = ssoUser.get().getRoles();
 				  }
 				  
 				  // let's create a token

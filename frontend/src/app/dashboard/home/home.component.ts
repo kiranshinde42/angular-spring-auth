@@ -11,6 +11,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class HomeComponent {
   username = JSON.parse(localStorage.getItem('user')).username;
+  opened: boolean;
   private breakpointObserver = inject(BreakpointObserver);
   options = this._formBuilder.group({
     bottom: 0,
@@ -26,4 +27,10 @@ export class HomeComponent {
       map((result) => result.matches),
       shareReplay()
     );
+
+  ngOnInit() {
+    this.isHandset$.subscribe((res) => {
+      this.opened = !res;
+    });
+  }
 }

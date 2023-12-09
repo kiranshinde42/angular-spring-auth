@@ -3,7 +3,6 @@
 }
 
 .app-container {
-  height: 88%;
   margin: 0;
   overflow: auto;
 }
@@ -15,4 +14,27 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+}
+
+// side nav setup
+.example-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+mat-sidenav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background: rgba(247, 241, 241, 0.5);
+}
+
+.mobile-logout {
+  border-radius: 6px !important;
+  height: 33px;
 }

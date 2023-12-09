@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-  <span>Dreamteam.com</span>
+  <button *ngIf="isHandset$ | async" mat-icon-button (click)="snav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span *ngIf="!(isHandset$ | async)">Dreamteam</span>
   <span class="toolbar-item-spacer"></span>
   <button
     mat-button
@@ -8,9 +11,25 @@
   >
     <mat-icon>account_circle</mat-icon> {{ username }}
   </button>
-  <button mat-raised-button color="accent" routerLink="#" class="logout">
-    <mat-icon>logout</mat-icon> Logout
+  <button
+    *ngIf="!(isHandset$ | async)"
+    mat-raised-button
+    color="accent"
+    routerLink="#"
+    class="logout"
+  >
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
   </button>
+  <button
+    mat-mini-fab
+    color="accent"
+    class="mobile-logout"
+    *ngIf="isHandset$ | async"
+  >
+    <mat-icon>logout</mat-icon>
+  </button>
+
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
     <button mat-menu-item routerLink="#">
       <mat-icon>person</mat-icon><span>My Account</span>
@@ -24,6 +43,14 @@
   </mat-menu>
 </mat-toolbar>
 
-<div class="app-container">
-  <router-outlet> </router-outlet>
-</div>
+<mat-sidenav-container
+  class="app-container"
+  [ngStyle]="{ height: (isHandset$ | async) ? '93.3%' : '91%' }"
+>
+  <mat-sidenav #snav mode="side" opened [(opened)]="opened"
+    >Sidenav content</mat-sidenav
+  >
+  <mat-sidenav-content>
+    <router-outlet> </router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
