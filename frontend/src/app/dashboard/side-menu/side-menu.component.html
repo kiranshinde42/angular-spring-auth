@@ -1,0 +1,32 @@
+<ng-container *ngFor="let item of menu">
+  <mat-nav-list *ngIf="item.subMenu === undefined">
+    <mat-list-item
+      [routerLink]="item.link"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon matListItemIcon [style.color]="item.color" class="icon-mr5">{{
+        item.icon
+      }}</mat-icon>
+      <span class="mat-list">{{ item.title }}</span>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <ng-container *ngIf="item.subMenu?.length > 0">
+    <mat-expansion-panel [class.mat-highlight]="isActiveSubMenu(item.subMenu)">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="d-flex align-items-center">
+          <mat-icon
+            [style.color]="item.color"
+            class="mat-icon-align"
+            matListItemIcon
+          >
+            {{ item.icon }}
+          </mat-icon>
+          <span mat-line class="list-item">{{ item.title }}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-side-menu [menu]="item.subMenu"></app-side-menu>
+    </mat-expansion-panel>
+  </ng-container>
+</ng-container>

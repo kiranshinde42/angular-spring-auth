@@ -19,8 +19,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorInterceptor } from '../shared-module/interceptor/http-interceptor.interceptor';
 import { SharedModuleModule } from '../shared-module/shared-module.module';
 import { MenuComponent } from './menu/menu.component';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 @NgModule({
-  declarations: [DashboardComponent, HomeComponent, MenuComponent],
+  declarations: [DashboardComponent, HomeComponent, MenuComponent, SideMenuComponent],
   imports: [
     CommonModule,
     SharedModuleModule,

@@ -50,6 +50,7 @@
           >
         </div>
         <hr />
+
         <button
           mat-raised-button
           color="primary"
@@ -57,6 +58,12 @@
           type="button"
           (click)="login()"
         >
+          <img
+            md-fab-image
+            [src]="'../../../assets/google-logo.png'"
+            width="15"
+            height="15"
+          />
           Google Login
         </button>
       </mat-card-content>

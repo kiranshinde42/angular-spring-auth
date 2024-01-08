@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
+  HttpErrorResponse,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
-  HttpHeaders,
+  HttpRequest,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, catchError } from 'rxjs';
+import { SnackBarService } from '../services/snack-bar.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpInterceptorInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(
+    private router: Router,
+    private snackBarService: SnackBarService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -23,10 +28,31 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
         headers: request.headers.append('Authorization', `Bearer ${authToken}`),
       });
 
-      return next.handle(authReq);
+      return next.handle(authReq).pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 403) {
+              this.snackBarService.openSnackBar(
+                err.error?.access_denied_reason
+              );
+              this.router.navigate(['/']);
+            }
+          }
+          return new Observable<HttpEvent<any>>();
+        })
+      );
+    } else {
+      // If there is no token, pass the original request
+      return next.handle(request).pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 403) {
+              console.log('this should print your error!', err.error);
+            }
+          }
+          return new Observable<HttpEvent<any>>();
+        })
+      );
     }
-
-    // If there is no token, pass the original request
-    return next.handle(request);
   }
 }

@@ -2,17 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { HttpInterceptorInterceptor } from './interceptor/http-interceptor.interceptor';
+import { CallbackComponent } from './components/callback/callback.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { SnackBarService } from './services/snack-bar.service';
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+  declarations: [CallbackComponent, BreadcrumbsComponent],
+  imports: [CommonModule, AngularMaterialModule],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
+    CallbackComponent,
+    BreadcrumbsComponent,
   ],
-  providers: [],
+  providers: [SnackBarService],
 })
 export class SharedModuleModule {}

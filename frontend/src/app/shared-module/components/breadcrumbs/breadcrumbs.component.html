@@ -1,0 +1,11 @@
+<mat-card class="br-0">
+  <mat-card-content class="p-0">
+    <span *ngFor="let m of menuItems; let indx = index" class="white">
+      <a mat-button class="breadcrumb-button"
+        >{{ m.label }}
+        <mat-icon *ngIf="indx == 0">home</mat-icon>
+        <mat-icon *ngIf="indx != 0">chevron_right</mat-icon>
+      </a>
+    </span>
+  </mat-card-content>
+</mat-card>

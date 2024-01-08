@@ -6,7 +6,7 @@ import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client';
     AuthModule.forRoot({
       config: {
         authority: 'https://accounts.google.com',
-        redirectUrl: window.location.origin + '/auth/callback',
+        redirectUrl: window.location.origin + '/callback',
         postLogoutRedirectUri: window.location.origin,
         clientId:
           '844781089585-ps70l23b4rkdidng2f29lv912oa0o613.apps.googleusercontent.com',

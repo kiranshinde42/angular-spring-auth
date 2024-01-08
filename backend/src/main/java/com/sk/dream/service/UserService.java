@@ -14,15 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.sk.dream.config.JwtService;
 import com.sk.dream.dto.LoginDto;
 import com.sk.dream.dto.LoginResponse;
 import com.sk.dream.dto.SignUpDto;
-import com.sk.dream.dto.SignUpSSODto;
 import com.sk.dream.dto.UserList;
 import com.sk.dream.entity.Role;
 import com.sk.dream.entity.User;
@@ -68,24 +67,8 @@ public class UserService {
         user.setFirstName(signUpDto.getFirstName());
         user.setLastName(signUpDto.getLastName());
         user.setEmail(signUpDto.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-        Set<Role> roleSet = new HashSet<Role>();
-        Role role = roleRepository.getByRole("User").get();
-        roleSet.add(role);
-        user.setRoles(roleSet);
-        userRepository.save(user);
-    }
-	
-	public void registerSSOUser(SignUpSSODto signUpDto) throws CommonException{
-        // checking for email exists in a database
-        if(userRepository.existsByEmail(signUpDto.getEmail())){
-        	throw new CommonException("Email is already exist!");
-        }
-        // creating user object
-        User user = new User();
-        user.setFirstName(signUpDto.getFirstName());
-        user.setLastName(signUpDto.getLastName());
-        user.setEmail(signUpDto.getEmail());
+        user.setIsSSO(false);
+        user.setIsActive(true);
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Set<Role> roleSet = new HashSet<Role>();
         Role role = roleRepository.getByRole("User").get();
@@ -125,7 +108,8 @@ public class UserService {
 					      user.setFirstName(firstName);
 					      user.setLastName(lastName);
 					      user.setEmail(payload.getEmail());
-					      user.setIsSSO(true);					      
+					      user.setIsSSO(true);		
+					      user.setIsActive(true);
 					      Role role = roleRepository.getByRole("User").get();
 					      roleSet.add(role);
 					      user.setRoles(roleSet);
@@ -146,10 +130,8 @@ public class UserService {
 				  System.out.println("Invalid ID token.");
 				}
 		} catch (GeneralSecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;		

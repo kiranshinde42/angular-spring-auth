@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
+import { SnackBarService } from 'src/app/shared-module/services/snack-bar.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,11 @@ export class RegisterComponent {
   });
   role: any;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private snackBarService: SnackBarService
+  ) {}
 
   ngOnInit() {}
 
@@ -32,10 +37,10 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.auth.register(this.registerForm.value).subscribe({
         next: (res) => {
-          alert(res);
+          this.snackBarService.openSnackBar(res['message']);
         },
         error: (err) => {
-          alert(err.error);
+          this.snackBarService.openSnackBar(err.error?.errorMessage);
         },
         complete: () => {
           this.formDirective.resetForm();

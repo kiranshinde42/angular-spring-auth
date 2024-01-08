@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   OidcClientNotification,
   OidcSecurityService,
@@ -9,6 +8,8 @@ import {
   UserDataResult,
 } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
+import { AuthService } from '../service/auth.service';
+import { SnackBarService } from 'src/app/shared-module/services/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
+    private snackBarService: SnackBarService,
     public oidcSecurityService: OidcSecurityService
   ) {}
 
@@ -42,21 +44,17 @@ export class LoginComponent {
     this.oidcSecurityService.authorize();
   }
 
-  logout() {
-    this.oidcSecurityService
-      .logoff()
-      .subscribe((result) => console.log(result));
-  }
-
   onSubmit() {
     if (this.loginForm.valid) {
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
           localStorage.setItem('user', JSON.stringify(res));
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['main']);
         },
         error: (err) => {
-          console.log('err ', err.error);
+          this.snackBarService.openSnackBar(
+            err?.error?.title + ': ' + err?.error?.detail
+          );
         },
         complete: () => {
           this.loginForm.reset();

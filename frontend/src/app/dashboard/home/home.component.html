@@ -15,7 +15,8 @@
     *ngIf="!(isHandset$ | async)"
     mat-raised-button
     color="accent"
-    routerLink="#"
+    routerLink="/"
+    (click)="logout()"
     class="logout"
   >
     <mat-icon>logout</mat-icon>
@@ -25,6 +26,8 @@
     mat-mini-fab
     color="accent"
     class="mobile-logout"
+    routerLink="/"
+    (click)="logout()"
     *ngIf="isHandset$ | async"
   >
     <mat-icon>logout</mat-icon>
@@ -47,10 +50,11 @@
   class="app-container"
   [ngStyle]="{ height: (isHandset$ | async) ? '93.3%' : '91%' }"
 >
-  <mat-sidenav #snav mode="side" opened [(opened)]="opened"
-    >Sidenav content</mat-sidenav
-  >
+  <mat-sidenav #snav mode="side" opened [(opened)]="opened">
+    <app-side-menu [menu]="menu"></app-side-menu>
+  </mat-sidenav>
   <mat-sidenav-content>
+    <app-breadcrumbs></app-breadcrumbs>
     <router-outlet> </router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

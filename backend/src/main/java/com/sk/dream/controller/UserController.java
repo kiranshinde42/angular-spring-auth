@@ -1,6 +1,8 @@
 package com.sk.dream.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -9,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -52,9 +54,11 @@ public class UserController {
     }
 	
 	@PostMapping("/auth/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpDto signUpDto) throws CommonException{
+    public ResponseEntity<Map<String, String>> registerUser(@Valid @RequestBody SignUpDto signUpDto) throws CommonException{
 		userService.registerUser(signUpDto);
-        return new ResponseEntity<>("User is registered successfully!", HttpStatus.OK);
+		Map<String, String> response = new HashMap<String, String>();
+		response.put("message", "User is registered successfully!");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 	
 	@GetMapping("/auth/authorize")
@@ -72,16 +76,20 @@ public class UserController {
     }
 	
 	public LoginResponse authenticateAndGetToken(LoginDto authRequest) throws CommonException { 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())); 
-        if (authentication.isAuthenticated()) { 
-        	String token = jwtService.generateToken(authRequest.getEmail());
-        	User user = userService.getUser(authRequest.getEmail()).get();
-        	List<String> roleList = user.getRoles().stream().map(roles->roles.getRole()).collect(Collectors.toList());
-        	LoginResponse lr = new LoginResponse(user.getFirstName()+" "+user.getLastName(), 
-        			token, roleList);
-            return  lr;
-        } else { 
-            throw new UsernameNotFoundException("invalid user request !"); 
-        } 
+        try {
+        	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())); 
+            if (authentication.isAuthenticated()) { 
+            	String token = jwtService.generateToken(authRequest.getEmail());
+            	User user = userService.getUser(authRequest.getEmail()).get();
+            	List<String> roleList = user.getRoles().stream().map(roles->roles.getRole()).collect(Collectors.toList());
+            	LoginResponse lr = new LoginResponse(user.getFirstName()+" "+user.getLastName(), 
+            			token, roleList);
+                return  lr;
+            } else { 
+                throw new UsernameNotFoundException("invalid user request !"); 
+            } 
+        }catch (Exception e) {
+        	throw new BadCredentialsException("Bad Credentials !");
+		}		
     } 
 }

@@ -43,10 +43,12 @@ public class User {
     
     private Boolean isSSO;
     
+    private Boolean isActive;
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
       name = "user_role", 
-      joinColumns = @JoinColumn(name = "id"), 
-      inverseJoinColumns = @JoinColumn(name = "role_id"))
+      joinColumns = @JoinColumn(name = "user_email", referencedColumnName = "email"), 
+      inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "role"))
     Set<Role> roles;
 }

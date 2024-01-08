@@ -31,11 +31,11 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.dashboard.getUsers().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.dataSource = res as [];
       },
       error: (err) => {
-        console.log('Error ', err);
+        console.log('Error --- ', err);
       },
     });
   }
