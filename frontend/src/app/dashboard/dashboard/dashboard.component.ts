@@ -24,19 +24,5 @@ export interface PeriodicElement {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  displayedColumns: string[] = ['First Name', 'Last Name', 'Email', 'Roles'];
-  dataSource = [];
-
-  constructor(private dashboard: DashboardService) {}
-
-  ngOnInit() {
-    this.dashboard.getUsers().subscribe({
-      next: (res: any) => {
-        this.dataSource = res as [];
-      },
-      error: (err) => {
-        console.log('Error --- ', err);
-      },
-    });
-  }
+  ngOnInit() {}
 }

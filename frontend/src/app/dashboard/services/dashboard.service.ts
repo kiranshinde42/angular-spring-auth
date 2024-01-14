@@ -14,4 +14,8 @@ export class DashboardService {
   getUsers() {
     return this.http.get('http://localhost:8080/api/admin/users');
   }
+
+  getMenus() {
+    return this.http.get('http://localhost:8080/api/dashboard/menu');
+  }
 }

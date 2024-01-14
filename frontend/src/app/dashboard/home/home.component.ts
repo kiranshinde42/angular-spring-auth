@@ -5,6 +5,8 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Menu } from 'src/app/shared-module/interfaces/menu-item';
+import { DashboardService } from '../services/dashboard.service';
+import { SnackBarService } from 'src/app/shared-module/services/snack-bar.service';
 
 @Component({
   selector: 'app-home',
@@ -56,7 +58,9 @@ export class HomeComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
-    public oidcSecurityService: OidcSecurityService
+    public oidcSecurityService: OidcSecurityService,
+    private dashboardService: DashboardService,
+    private snackBarService: SnackBarService
   ) {}
 
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -69,6 +73,74 @@ export class HomeComponent {
   ngOnInit() {
     this.isHandset$.subscribe((res) => {
       this.opened = !res;
+    });
+
+    this.getMenus();
+  }
+
+  getMenu(title, color, path, icon) {
+    return {
+      title: title,
+      color: color,
+      link: path,
+      icon: icon,
+    };
+  }
+
+  getMenus() {
+    this.dashboardService.getMenus().subscribe({
+      next: (menus) => {
+        this.menu = [];
+        for (const menu of menus as []) {
+          if (!menu['subTitle']) {
+            this.menu.push(
+              this.getMenu(
+                menu['title'],
+                menu['color'],
+                menu['path'],
+                menu['icon']
+              )
+            );
+          } else {
+            let isMenuCreatedAlreday = false;
+            for (let final of this.menu) {
+              if (final['title'] == menu['title']) {
+                isMenuCreatedAlreday = true;
+                final['subMenu'].push(
+                  this.getMenu(
+                    menu['subTitle'],
+                    menu['subColor'],
+                    menu['subLink'],
+                    menu['subIcon']
+                  )
+                );
+                break;
+              }
+            }
+            if (!isMenuCreatedAlreday) {
+              this.menu.push({
+                title: menu['title'],
+                color: menu['color'],
+                link: menu['path'],
+                icon: menu['icon'],
+                subMenu: [
+                  this.getMenu(
+                    menu['subTitle'],
+                    menu['subColor'],
+                    menu['subLink'],
+                    menu['subIcon']
+                  ),
+                ],
+              });
+            }
+          }
+        }
+      },
+      error: (err) => {
+        this.snackBarService.openSnackBar(
+          err?.error?.title + ': ' + err?.error?.detail
+        );
+      },
     });
   }
 
