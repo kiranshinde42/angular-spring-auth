@@ -24,6 +24,22 @@ const routes: Routes = [
         },
       },
       {
+        path: 'ipl',
+        loadChildren: () =>
+          import('../ipl/ipl.module').then((m) => m.IplModule),
+        data: {
+          breadcrumb: 'Ipl',
+        },
+      },
+      {
+        path: 'd-team',
+        loadChildren: () =>
+          import('../d-team/d-team.module').then((m) => m.DTeamModule),
+        data: {
+          breadcrumb: 'teams',
+        },
+      },
+      {
         path: 'teams',
         loadChildren: () =>
           import('../teams/teams.module').then((m) => m.TeamsModule),

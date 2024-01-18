@@ -1,13 +1,12 @@
 package com.sk.dream.entity;
 
-import java.util.Set;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,16 +18,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "role_menu")
+public class RoleMenu {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
+    private Long roleMenuId;
 	
-	@Column(nullable = false, unique = true, length = 45)
-    private String role;
-	
-	@ManyToMany(mappedBy = "roles")
-	Set<User> users;	
-	
+	@ManyToOne
+    @MapsId("roleId")
+    @JoinColumn(name = "role_id")
+    Role role;
+
+    @ManyToOne
+    @MapsId("menuId")
+    @JoinColumn(name = "menu_id")
+    Menu menu;
+
 }
