@@ -24,6 +24,22 @@
         <mat-label>Enter your email</mat-label>
         <input matInput formControlName="email" />
         <mat-icon matSuffix>email</mat-icon>
+        <mat-hint
+          style="color: #e01313"
+          *ngIf="
+            registerForm.get('email').errors &&
+            (registerForm.get('email').dirty ||
+              registerForm.get('email').touched)
+          "
+        >
+          <span *ngIf="registerForm.get('email').hasError('emailValidator')"
+            >Invalid email format.</span
+          >
+          <span
+            *ngIf="registerForm.get('email').hasError('alreadyPresentEmail')"
+            >Email already present</span
+          >
+        </mat-hint>
       </mat-form-field>
     </div>
     <div class="auto-width">

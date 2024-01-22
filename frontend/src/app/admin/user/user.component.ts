@@ -65,7 +65,12 @@ export class UserComponent implements AfterViewInit {
   }
 
   addUser() {
-    const dialogRef = this.dialog.open(AddUserComponent);
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      data: {
+        dataSource: this.dataSource.data,
+        isUpdate: false,
+      },
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
@@ -74,7 +79,10 @@ export class UserComponent implements AfterViewInit {
 
   updateUser(element) {
     const dialogRef = this.dialog.open(AddUserComponent, {
-      data: element,
+      data: {
+        user: element,
+        isUpdate: true,
+      },
     });
   }
 
