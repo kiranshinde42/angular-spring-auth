@@ -27,7 +27,6 @@ import com.sk.dream.dto.LoginDto;
 import com.sk.dream.dto.LoginResponse;
 import com.sk.dream.dto.SignUpDto;
 import com.sk.dream.dto.UserList;
-import com.sk.dream.entity.Menu;
 import com.sk.dream.entity.User;
 import com.sk.dream.exception.CommonException;
 import com.sk.dream.service.UserService;
