@@ -1,5 +1,5 @@
 .grid-container {
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   overflow: auto;
 }
 table {
@@ -9,18 +9,23 @@ th.mat-sort-header-sorted {
   color: black;
 }
 .demo-button-container {
-  padding-bottom: 16px;
+  margin: 10px 10px 0 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .demo-button + .demo-button {
   margin-left: 8px;
 }
 
-.mat-table {
-  overflow-x: scroll;
+// Table global search css
+::ng-deep .global-search .mat-mdc-form-field-subscript-wrapper {
+  margin-bottom: -1.25em;
 }
 
-.mat-row,
-.mat-header-row {
-  min-width: 800px;
+::ng-deep .global-search .mat-mdc-text-field-wrapper {
+  height: 40px !important;
+}
+::ng-deep .global-search .mat-mdc-form-field-flex {
+  margin-top: -7px !important;
 }

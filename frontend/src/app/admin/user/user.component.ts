@@ -1,8 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { RegisterComponent } from 'src/app/auth/register/register.component';
 import { DashboardService } from 'src/app/dashboard/services/dashboard.service';
+import { AddUserComponent } from './add-user/add-user.component';
+import { DeleteDialogComponent } from 'src/app/shared-module/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-user',
@@ -21,7 +25,8 @@ export class UserComponent implements AfterViewInit {
 
   constructor(
     private dashboard: DashboardService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    public dialog: MatDialog
   ) {}
   ngOnInit() {
     this.dashboard.getUsers().subscribe({
@@ -52,5 +57,37 @@ export class UserComponent implements AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  addUser() {
+    const dialogRef = this.dialog.open(AddUserComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  updateUser(element) {
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      data: element,
+    });
+  }
+
+  deleteUser(element) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        title: 'Delete user',
+        message: 'Would you like to delete ' + element.firstName + '?',
+        data: element,
+      },
+    });
+    const sub = dialogRef.componentInstance.onYes.subscribe((data) => {
+      console.log('Delete ', data);
+    });
   }
 }
