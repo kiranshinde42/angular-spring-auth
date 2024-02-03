@@ -52,9 +52,14 @@ export class LoginComponent {
           this.router.navigate(['main']);
         },
         error: (err) => {
-          this.snackBarService.openSnackBar(
-            err?.error?.title + ': ' + err?.error?.detail
-          );
+          const error = err?.error?.detail || err?.error?.errorMessage;
+          this.snackBarService.openSnackBar(error);
+          let msg = 'Please verify the email, Please check email';
+          if (msg == error) {
+            this.router.navigate(['auth/otp-validate'], {
+              queryParams: { email: this.loginForm.get('email').value },
+            });
+          }
         },
         complete: () => {
           this.loginForm.reset();

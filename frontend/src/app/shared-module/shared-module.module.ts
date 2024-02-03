@@ -7,8 +7,17 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { SnackBarService } from './services/snack-bar.service';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { EmailValidatorDirective } from './validators/email-validator.directive';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptor } from './interceptor/loader.interceptor';
 @NgModule({
-  declarations: [CallbackComponent, BreadcrumbsComponent, DeleteDialogComponent, EmailValidatorDirective],
+  declarations: [
+    CallbackComponent,
+    BreadcrumbsComponent,
+    DeleteDialogComponent,
+    EmailValidatorDirective,
+    SpinnerComponent,
+  ],
   imports: [CommonModule, AngularMaterialModule],
   exports: [
     CommonModule,
@@ -17,7 +26,15 @@ import { EmailValidatorDirective } from './validators/email-validator.directive'
     AngularMaterialModule,
     CallbackComponent,
     BreadcrumbsComponent,
+    SpinnerComponent,
   ],
-  providers: [SnackBarService],
+  providers: [
+    SnackBarService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
+    },
+  ],
 })
 export class SharedModuleModule {}

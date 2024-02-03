@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { SnackBarService } from 'src/app/shared-module/services/snack-bar.service';
+import { emailValidator } from 'src/app/shared-module/validators/email-validator.directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,7 @@ export class RegisterComponent {
   registerForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    email: ['', Validators.required],
+    email: ['', [emailValidator(), Validators.required]],
     password: ['', Validators.required],
   });
   role: any;
@@ -28,6 +30,7 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
+    private router: Router,
     private snackBarService: SnackBarService
   ) {}
 
@@ -38,6 +41,9 @@ export class RegisterComponent {
       this.auth.register(this.registerForm.value).subscribe({
         next: (res) => {
           this.snackBarService.openSnackBar(res['message']);
+          this.router.navigate(['/auth/otp-validate'], {
+            queryParams: { email: this.registerForm.get('email').value },
+          });
         },
         error: (err) => {
           this.snackBarService.openSnackBar(err.error?.errorMessage);

@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+  <span>Dreamteam</span>
+  <span class="toolbar-item-spacer"></span>
+  <button mat-raised-button color="primary" routerLink="/" class="login">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]="['/auth/register']"
+    class="register"
+  >
+    <mat-icon>how_to_reg</mat-icon>
+    <span>Register</span>
+  </button>
+</mat-toolbar>
+<div class="otp-container">
+  <mat-card>
+    <mat-card-content>
+      <h1>OTP Verification</h1>
+      <div>OTP sent to your register email : {{ email }}</div>
+      <div class="mt-5">
+        <ng-otp-input
+          (onInputChange)="onOtpChange($event)"
+          [config]="{ length: 4 }"
+        ></ng-otp-input>
+        <a href="javascript:;" (click)="resendOTP()">Resend OTP</a> |
+        <a href="javascript:;" routerLink="/">Login</a>
+        <div class="mt-5">
+          <button mat-raised-button color="primary" (click)="otpValidate()">
+            <mat-icon>check_circle_outline</mat-icon>Validate
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

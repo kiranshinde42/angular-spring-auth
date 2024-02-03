@@ -1,4 +1,11 @@
-<mat-toolbar color="primary"></mat-toolbar>
+<mat-toolbar color="primary">
+  <span>Dreamteam</span>
+  <span class="toolbar-item-spacer"></span>
+  <button mat-raised-button color="primary" routerLink="/" class="login">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </button>
+</mat-toolbar>
 <div class="grid-container">
   <form
     [formGroup]="registerForm"
@@ -27,6 +34,18 @@
             <mat-label>Enter your email</mat-label>
             <input matInput formControlName="email" />
             <mat-icon matSuffix>email</mat-icon>
+            <mat-hint
+              style="color: #e01313"
+              *ngIf="
+                registerForm.get('email').errors &&
+                (registerForm.get('email').dirty ||
+                  registerForm.get('email').touched)
+              "
+            >
+              <span *ngIf="registerForm.get('email').hasError('emailValidator')"
+                >Invalid email format.</span
+              >
+            </mat-hint>
           </mat-form-field>
         </p>
         <p>

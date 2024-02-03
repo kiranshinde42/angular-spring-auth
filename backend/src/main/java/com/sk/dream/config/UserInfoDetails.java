@@ -23,7 +23,6 @@ public class UserInfoDetails implements UserDetails {
     private List<GrantedAuthority> authorities; 
   
     public UserInfoDetails(User userInfo) { 
-    	System.out.println("User "+ userInfo.getRoles());
         name = userInfo.getEmail(); 
         password = userInfo.getPassword();
         List<String> roles = new ArrayList<>();

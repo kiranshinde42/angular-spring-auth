@@ -12,7 +12,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" style="padding: 0">
             <mat-label>Enter your password</mat-label>
             <input
               matInput
@@ -28,6 +28,11 @@
             >
               <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
             </button>
+            <mat-hint class="forgot">
+              <a href="javascript:;" [routerLink]="['/auth/forgot-password']"
+                >Forgot your password</a
+              >
+            </mat-hint>
           </mat-form-field>
         </p>
         <div>

@@ -1,5 +1,6 @@
 package com.sk.dream.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -44,6 +45,15 @@ public class User {
     private Boolean isSSO;
     
     private Boolean isActive;
+    
+    @Column(name = "one_time_password")
+    private String oneTimePassword;
+     
+    @Column(name = "otp_requested_time")
+    private Date otpRequestedTime;
+    
+    private Boolean isEmailVerified = false;
+    
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

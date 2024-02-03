@@ -18,13 +18,6 @@ interface UserInterface {
   roles: string;
 }
 
-// export const emailAlreadyPresentValidator = (): ValidatorFn => {
-//   return (control: AbstractControl): ValidationErrors | null => {
-//     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-//     return passwordRegex.test(control.value) ? null : { invalidPassword: true };
-//   };
-// };
-
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -54,7 +47,6 @@ export class AddUserComponent {
   ) {}
 
   ngOnInit() {
-    console.log('this data ', this.data);
     if (this.data.isUpdate) {
       const user = this.data.user;
       this.registerForm.setValue({
