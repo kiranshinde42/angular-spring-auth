@@ -7,6 +7,8 @@ import { RegisterComponent } from 'src/app/auth/register/register.component';
 import { DashboardService } from 'src/app/dashboard/services/dashboard.service';
 import { AddUserComponent } from './add-user/add-user.component';
 import { DeleteDialogComponent } from 'src/app/shared-module/components/delete-dialog/delete-dialog.component';
+import { AdminService } from '../services/admin.service';
+import { SnackBarService } from 'src/app/shared-module/services/snack-bar.service';
 
 @Component({
   selector: 'app-user',
@@ -26,7 +28,9 @@ export class UserComponent implements AfterViewInit {
   constructor(
     private dashboard: DashboardService,
     private _liveAnnouncer: LiveAnnouncer,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public adminService: AdminService,
+    private snackBarService: SnackBarService
   ) {}
   ngOnInit() {
     this.dashboard.getUsers().subscribe({
@@ -84,6 +88,22 @@ export class UserComponent implements AfterViewInit {
         isUpdate: true,
       },
     });
+
+    const sub = dialogRef.componentInstance.onYes.subscribe((value) => {
+      this.adminService.updateUser(value).subscribe({
+        next: (res) => {
+          this.dataSource = new MatTableDataSource(res['result'] as []);
+          this.snackBarService.openSnackBar(
+            this.snackBarService.getMessage(res)
+          );
+        },
+        error: (error) => {
+          this.snackBarService.openSnackBar(
+            this.snackBarService.getError(error)
+          );
+        },
+      });
+    });
   }
 
   deleteUser(element) {
@@ -94,8 +114,20 @@ export class UserComponent implements AfterViewInit {
         data: element,
       },
     });
-    const sub = dialogRef.componentInstance.onYes.subscribe((data) => {
-      console.log('Delete ', data);
+    const sub = dialogRef.componentInstance.onYes.subscribe((value) => {
+      this.adminService.deleteUser(value['data']['id']).subscribe({
+        next: (res) => {
+          this.dataSource = new MatTableDataSource(res['result'] as []);
+          this.snackBarService.openSnackBar(
+            this.snackBarService.getMessage(res)
+          );
+        },
+        error: (error) => {
+          this.snackBarService.openSnackBar(
+            this.snackBarService.getError(error)
+          );
+        },
+      });
     });
   }
 }

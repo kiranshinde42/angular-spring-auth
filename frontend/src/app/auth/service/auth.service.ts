@@ -37,13 +37,10 @@ export class AuthService {
   }
 
   forgotPassword(email) {
-    return this.http.get(
-      this.server + '/api/auth/forgot-password?email=' + email
-    );
+    return this.http.get(this.server + '/api/auth/forgot-password/' + email);
   }
 
   resetPassword(token, password) {
-    console.log('token password ', token, password);
     const httpOptions = {
       headers: new HttpHeaders({
         token: token,

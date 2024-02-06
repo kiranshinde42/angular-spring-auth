@@ -14,6 +14,17 @@ export class SnackBarService {
 
   constructor(private _snackBar: MatSnackBar) {}
 
+  getMessage(res) {
+    return res && res.hasOwnProperty('message')
+      ? res['message']
+      : 'Something went wrong, please try again!';
+  }
+
+  getError(err) {
+    const error = err?.error?.detail || err?.error?.errorMessage;
+    return error;
+  }
+
   openSnackBar(message, action = '') {
     this._snackBar.open(message, action, {
       duration: 10 * 1000,

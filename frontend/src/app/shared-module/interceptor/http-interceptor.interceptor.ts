@@ -9,11 +9,13 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { SnackBarService } from '../services/snack-bar.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
 
 @Injectable()
 export class HttpInterceptorInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
+    private loader: LoaderService,
     private snackBarService: SnackBarService
   ) {}
 
@@ -31,6 +33,7 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
       return next.handle(authReq).pipe(
         catchError((err) => {
           if (err instanceof HttpErrorResponse) {
+            this.loader.hideLoader();
             if (err.status === 403) {
               this.snackBarService.openSnackBar(
                 err.error?.access_denied_reason
@@ -45,6 +48,7 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
       // If there is no token, pass the original request
       return next.handle(request).pipe(
         catchError((err) => {
+          this.loader.hideLoader();
           if (err instanceof HttpErrorResponse) {
             if (err.status === 403) {
               console.log('this should print your error!', err.error);

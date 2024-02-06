@@ -24,7 +24,11 @@ export class ForgotPasswordComponent {
   onSubmit() {
     this.auth.forgotPassword(this.forgotForm.get('email').value).subscribe({
       next: (res) => {
-        this.snackBarService.openSnackBar(res['message']);
+        const msg =
+          res && res.hasOwnProperty('message')
+            ? res['message']
+            : 'Something went wrong, please try again';
+        this.snackBarService.openSnackBar(msg);
         this.router.navigate(['/']);
       },
       error: (err) => {

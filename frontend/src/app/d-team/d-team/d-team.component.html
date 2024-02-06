@@ -1,1 +1,10 @@
-<p>d-team works!</p>
+<div class="grid-container">
+  <ag-grid-angular
+    [rowData]="final"
+    [columnDefs]="colDefs"
+    [statusBar]="statusBar"
+    class="ag-theme-quartz"
+    style="width: 100%; height: calc(100vh - 120px)"
+  >
+  </ag-grid-angular>
+</div>

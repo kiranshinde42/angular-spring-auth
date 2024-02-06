@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -25,6 +25,8 @@ interface UserInterface {
 })
 export class AddUserComponent {
   roles: string[] = ['Admin', 'User'];
+  @Output() onYes = new EventEmitter<any>();
+
   registerForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -63,7 +65,12 @@ export class AddUserComponent {
   }
 
   onSubmit() {
-    console.log('submit ', this.registerForm.getRawValue());
+    const user = {
+      id: this.data.user.id,
+      email: this.data.user.email,
+      roles: this.registerForm.get('roles').value,
+    };
+    this.onYes.emit(user);
   }
 
   emailAlreadyPresentValidator(): ValidatorFn {

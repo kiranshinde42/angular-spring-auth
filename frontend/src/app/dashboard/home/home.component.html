@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" style="height: 56px">
+<mat-toolbar color="primary" style="height: 64px">
   <button *ngIf="isHandset$ | async" mat-icon-button (click)="snav.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -48,7 +48,7 @@
 
 <mat-sidenav-container
   class="app-container"
-  [ngStyle]="{ height: (isHandset$ | async) ? '93.3%' : '91%' }"
+  [ngStyle]="{ height: (isHandset$ | async) ? '93.3%' : '90.8%' }"
 >
   <mat-sidenav #snav mode="side" opened [(opened)]="opened">
     <app-side-menu [menu]="menu"></app-side-menu>
